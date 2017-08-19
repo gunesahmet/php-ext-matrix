@@ -13,9 +13,9 @@ dnl [  --with-matrix             Include matrix support])
 
 dnl Otherwise use enable:
 
-dnl PHP_ARG_ENABLE(matrix, whether to enable matrix support,
-dnl Make sure that the comment is aligned:
-dnl [  --enable-matrix           Enable matrix support])
+PHP_ARG_ENABLE(matrix, whether to enable matrix support,
+Make sure that the comment is aligned:
+[  --enable-matrix           Enable matrix support])
 
 if test "$PHP_MATRIX" != "no"; then
   dnl Write more examples of tests here...
@@ -59,5 +59,9 @@ if test "$PHP_MATRIX" != "no"; then
   dnl
   dnl PHP_SUBST(MATRIX_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(matrix, matrix.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+  PHP_NEW_EXTENSION(matrix, 
+  matrix.c        \
+  src/libmatrix.c \
+  , 
+  $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 fi

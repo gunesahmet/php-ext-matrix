@@ -26,6 +26,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_matrix.h"
+#include "src/libmatrix.h"
 
 
 /* {{{ PHP_MINIT_FUNCTION
@@ -35,6 +36,7 @@ PHP_MINIT_FUNCTION(matrix)
 	/* If you have INI entries, uncomment these lines
 	REGISTER_INI_ENTRIES();
 	*/
+	PHP_MATRIX_STARTUP(Matrix);
 	return SUCCESS;
 }
 /* }}} */
@@ -90,7 +92,6 @@ PHP_MINFO_FUNCTION(matrix)
  * Every user visible function must have an entry in matrix_functions[].
  */
 const zend_function_entry matrix_functions[] = {
-	PHP_FE(confirm_matrix_compiled,	NULL)		/* For testing, remove later. */
 	PHP_FE_END	/* Must be the last line in matrix_functions[] */
 };
 /* }}} */

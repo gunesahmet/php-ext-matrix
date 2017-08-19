@@ -12,7 +12,7 @@
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
-  | Author:                                                              |
+  | Author: shinemotec@gmail.com                                         |
   +----------------------------------------------------------------------+
 */
 
@@ -34,38 +34,17 @@ extern zend_module_entry matrix_module_entry;
 #	define PHP_MATRIX_API
 #endif
 
+#define PHP_MATRIX_STARTUP(module)               ZEND_MODULE_STARTUP_N(php_matrix_##module)(INIT_FUNC_ARGS_PASSTHRU)
+#define PHP_MATRIX_STARTUP_FUNCTION(module)      ZEND_MINIT_FUNCTION(php_matrix_##module)
+
 #ifdef ZTS
 #include "TSRM.h"
 #endif
 
-/*
-  	Declare any global variables you may need between the BEGIN
-	and END macros here:
-
-ZEND_BEGIN_MODULE_GLOBALS(matrix)
-	zend_long  global_value;
-	char *global_string;
-ZEND_END_MODULE_GLOBALS(matrix)
-*/
-
-/* Always refer to the globals in your function as MATRIX_G(variable).
-   You are encouraged to rename these macros something shorter, see
-   examples in any other php module directory.
-*/
 #define MATRIX_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(matrix, v)
 
 #if defined(ZTS) && defined(COMPILE_DL_MATRIX)
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
 
-#endif	/* PHP_MATRIX_H */
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
+#endif
