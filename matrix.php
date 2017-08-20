@@ -14,4 +14,5 @@ $matrixData = [
 
 $_matrix = $matrix->createMatrix($matrixData);
 var_dump($matrix->getMatrixRow(1));
+var_dump($matrix->getMatrixCol(2));
 ?>

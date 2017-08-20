@@ -16,7 +16,7 @@ ZEND_BEGIN_ARG_INFO(getMatrixRowArgInfo, 0)
 ZEND_ARG_INFO(0, rowNum)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(getMatrixCol, 0)
+ZEND_BEGIN_ARG_INFO(getMatrixColArgInfo, 0)
 ZEND_ARG_INFO(0, colNum)
 ZEND_END_ARG_INFO()
 
@@ -50,10 +50,35 @@ PHP_METHOD(Matrix, getMatrixRow)
     RETURN_NULL();
 }
 
+PHP_METHOD(Matrix, getMatrixCol)
+{
+    zend_long colNum;
+    zval *matrixData, *entry, *colData, arr;
+    zend_ulong h, hCol, index = 0;
+    zend_string *key, *hKey;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_LONG(colNum)
+    ZEND_PARSE_PARAMETERS_END();
+
+    matrixData = zend_read_property(matrix_ce, getThis(), ZEND_STRL("matrix"), 0, matrixData);
+    array_init(&arr);
+    ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(matrixData), h, key, entry) {
+        ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(entry), hCol, hKey, colData) { 
+            if (colNum == hCol) {
+                add_index_long(&arr, index, Z_LVAL_P(colData));
+            }
+            index++;
+        } ZEND_HASH_FOREACH_END();
+    } ZEND_HASH_FOREACH_END();
+    RETURN_ZVAL(&arr, 0, 1);
+}
+
 
 static zend_function_entry matrix_methods[] = {
     PHP_ME(Matrix, createMatrix, createMatrixArgInfo, ZEND_ACC_PUBLIC)
     PHP_ME(Matrix, getMatrixRow, getMatrixRowArgInfo, ZEND_ACC_PUBLIC)
+    PHP_ME(Matrix, getMatrixCol, getMatrixColArgInfo, ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
