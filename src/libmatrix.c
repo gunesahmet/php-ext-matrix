@@ -64,12 +64,17 @@ PHP_METHOD(Matrix, getMatrixCol)
     matrixData = zend_read_property(matrix_ce, getThis(), ZEND_STRL("matrix"), 0, matrixData);
     array_init(&arr);
     ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(matrixData), h, key, entry) {
-        ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(entry), hCol, hKey, colData) { 
-            if (colNum == hCol) {
-                add_index_long(&arr, index, Z_LVAL_P(colData));
-            }
-            index++;
-        } ZEND_HASH_FOREACH_END();
+        if (Z_TYPE_P(entry) == IS_ARRAY) {
+            ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(entry), hCol, hKey, colData) { 
+                php_printf("index: %d , hcol: %d, value:%d\n", colNum, hCol, Z_LVAL_P(colData));
+                if (colNum == hCol) {
+                   
+                    add_index_long(&arr, index, Z_LVAL_P(colData));
+                    index++;
+                }
+                
+            } ZEND_HASH_FOREACH_END();
+        }
     } ZEND_HASH_FOREACH_END();
     RETURN_ZVAL(&arr, 0, 1);
 }

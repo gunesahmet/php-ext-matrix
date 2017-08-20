@@ -9,7 +9,7 @@ use Ml\Matrix;
 $matrix = new Matrix();
 $matrixData = [
 	[1, 2, 3],
-	[3, 4, 5]
+	[7, 8, 9],
 ];
 
 $_matrix = $matrix->createMatrix($matrixData);
